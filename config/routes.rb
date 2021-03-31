@@ -41,6 +41,18 @@ Rails.application.routes.draw do
           post "addresses/cities_by_state", to: "addresses#cities_by_state"
 
         end
+        
+        namespace :companies do
+          post "settings/dashboard", to: "settings#dashboard"
+
+          post "entities/list", to: "entities#list"
+          post "entities/read", to: "entities#read"
+          post "entities/read_user", to: "entities#read_user"
+          post "entities/read_products", to: "entities#read_products"
+          post "entities/create", to: "entities#create"
+          put "entities/update", to: "entities#update"
+        end
+        
       end
 
     end

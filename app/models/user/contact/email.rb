@@ -10,7 +10,7 @@ class User::Contact::Email < ApplicationRecord
   # Validations
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :record_type, presence: {message: "Favor insirar a Pessoa/Empresa. "}
-  validate :is_main_uniq
+  # validate :is_main_uniq
   validates :kind, presence: {message: "Favor insirar o Tipo. "}
   validates :address, presence: {message: "Por favor, insira o e-mail. "},
                     length: {maximum: 255, message: "Tamanho de e-mail inválido. "},

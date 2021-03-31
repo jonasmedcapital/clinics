@@ -8,7 +8,7 @@ class User::Contact::Address < ApplicationRecord
   belongs_to :company, class_name: "User::Company::Entity", foreign_key: "company_id", optional: true
 
   # Validations
-  validate :is_main_uniq
+  # validate :is_main_uniq
   validates :record_type, presence: {message: "Favor insirar a Pessoa/Empresa. "}
   validates :kind, presence: {message: "Favor insirar o Tipo. "}
   validates :postal_code, presence: {message: "Favor insirar o CEP."},

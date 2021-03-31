@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_171911) do
+ActiveRecord::Schema.define(version: 2021_03_31_194856) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,27 @@ ActiveRecord::Schema.define(version: 2021_03_31_171911) do
     t.index ["slug"], name: "index_account_entities_on_slug", unique: true
     t.index ["token"], name: "index_account_entities_on_token"
     t.index ["user_id"], name: "index_account_entities_on_user_id"
+  end
+
+  create_table "company_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.string "name"
+    t.string "trade_name"
+    t.string "cnpj"
+    t.string "kind", array: true
+    t.string "subkind", array: true
+    t.string "slug"
+    t.date "opened_at"
+    t.text "notes"
+    t.index ["active"], name: "index_company_entities_on_active"
+    t.index ["cnpj"], name: "index_company_entities_on_cnpj", unique: true
+    t.index ["kind"], name: "index_company_entities_on_kind"
+    t.index ["name"], name: "index_company_entities_on_name"
+    t.index ["slug"], name: "index_company_entities_on_slug", unique: true
+    t.index ["subkind"], name: "index_company_entities_on_subkind"
+    t.index ["trade_name"], name: "index_company_entities_on_trade_name"
   end
 
   create_table "contact_addresses", force: :cascade do |t|
