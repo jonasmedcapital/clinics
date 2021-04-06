@@ -29,6 +29,10 @@ class Operation::Product::Entity < ApplicationRecord
   has_many :booking_receipts, class_name: "Operation::Product::Booking::Receipt", foreign_key: "booking_id"
   has_many :booking_payments, class_name: "Operation::Product::Booking::Payment", foreign_key: "booking_id"
 
+  # Config Clinic
+  has_many :clinic_takers, class_name: "Operation::Product::Clinic::Taker", foreign_key: "clinic_id"
+  has_many :clinic_partners, class_name: "Operation::Product::Clinic::Partner", foreign_key: "clinic_id"
+
   # Validations
   validates :name, presence: { message: "Favor inserir o nome do Produto. " }
   validates :kind, presence: { message: "Favor inserir o tipo de Produto. " }

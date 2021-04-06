@@ -1,25 +1,11 @@
 class Operation::Product::Date < ApplicationRecord
 
   self.table_name = "product_dates"
-  
+
   # Relations
   belongs_to :product, class_name: "Operation::Product::Entity", foreign_key: "product_id"
-  belongs_to :account, class_name: "User::Account::Entity", foreign_key: "account_id", optional: true
-  has_one :calculation, class_name: "Operation::Product::Receivement::Calculation", foreign_key: "date_id"
-  has_many :papers, class_name: "Operation::Product::Receivement::Paper", foreign_key: "date_id"
 
-  # Tax Return Relations
-  has_one :return_calculation, class_name: "Operation::Product::TaxReturn::Calculation", foreign_key: "date_id", dependent: :destroy
-  has_one :return_achievement, class_name: "Operation::Product::TaxReturn::Achievement", foreign_key: "date_id", dependent: :destroy
-  has_many :return_members, class_name: "Operation::Product::TaxReturn::Member", foreign_key: "date_id", dependent: :destroy
-
-  # Booking Relations
-  has_one :booking_calculation, class_name: "Operation::Product::Booking::Calculation", foreign_key: "date_id", dependent: :destroy
-
-  # Tax Filing Relations
-  has_one :filing_calculation, class_name: "Operation::Product::TaxFiling::Calculation", foreign_key: "date_id", dependent: :destroy
-  has_one :filing_agent, class_name: "Operation::Product::TaxFiling::Agent", foreign_key: "date_id", dependent: :destroy
-  has_many :filing_journeys, class_name: "Operation::Product::TaxFiling::Journey", foreign_key: "date_id", dependent: :destroy
+  # Clinic Relations
 
   # Validations
   validates :product_id, presence: { message: "Falta definir o Produto. " }

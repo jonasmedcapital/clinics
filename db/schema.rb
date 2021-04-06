@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_172658) do
+ActiveRecord::Schema.define(version: 2021_04_06_192127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,37 @@ ActiveRecord::Schema.define(version: 2021_04_06_172658) do
     t.index ["tax_return_id"], name: "index_operation_account_products_on_tax_return_id"
   end
 
+  create_table "operation_clinic_partners", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "clinic_id"
+    t.bigint "account_id"
+    t.string "name"
+    t.string "cpf"
+    t.boolean "financial", default: false
+    t.boolean "operational", default: false
+    t.boolean "admnistrative", default: false
+    t.boolean "doctor", default: false
+    t.boolean "legal", default: false
+    t.boolean "technical", default: false
+    t.integer "shares"
+    t.date "entried_at"
+    t.date "exited_at"
+    t.text "exited_description"
+    t.index ["account_id"], name: "index_operation_clinic_partners_on_account_id"
+    t.index ["active"], name: "index_operation_clinic_partners_on_active"
+    t.index ["admnistrative"], name: "index_operation_clinic_partners_on_admnistrative"
+    t.index ["clinic_id"], name: "index_operation_clinic_partners_on_clinic_id"
+    t.index ["cpf"], name: "index_operation_clinic_partners_on_cpf"
+    t.index ["doctor"], name: "index_operation_clinic_partners_on_doctor"
+    t.index ["financial"], name: "index_operation_clinic_partners_on_financial"
+    t.index ["legal"], name: "index_operation_clinic_partners_on_legal"
+    t.index ["name"], name: "index_operation_clinic_partners_on_name"
+    t.index ["operational"], name: "index_operation_clinic_partners_on_operational"
+    t.index ["technical"], name: "index_operation_clinic_partners_on_technical"
+  end
+
   create_table "operation_clinic_takers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -290,6 +321,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_172658) do
   add_foreign_key "operation_account_products", "product_entities", column: "clinic_id"
   add_foreign_key "operation_account_products", "product_entities", column: "receivement_id"
   add_foreign_key "operation_account_products", "product_entities", column: "tax_return_id"
+  add_foreign_key "operation_clinic_partners", "product_entities", column: "clinic_id"
   add_foreign_key "operation_clinic_takers", "product_entities", column: "clinic_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "account_entities", column: "account_id"
