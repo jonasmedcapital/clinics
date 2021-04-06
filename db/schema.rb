@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_31_194856) do
+ActiveRecord::Schema.define(version: 2021_04_06_135130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,6 +133,78 @@ ActiveRecord::Schema.define(version: 2021_03_31_194856) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "operation_account_products", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "account_id"
+    t.bigint "tax_return_id"
+    t.bigint "booking_id"
+    t.string "legal_ids", default: [], array: true
+    t.bigint "billing_id"
+    t.bigint "receivement_id"
+    t.boolean "has_tax_return", default: false
+    t.boolean "has_booking", default: false
+    t.boolean "has_legal", default: false
+    t.boolean "has_billing", default: false
+    t.boolean "has_receivement", default: false
+    t.bigint "tax_filing_id"
+    t.bigint "banking_id"
+    t.boolean "has_tax_filing", default: false
+    t.boolean "has_banking", default: false
+    t.boolean "has_clinic", default: false
+    t.bigint "clinic_id"
+    t.index ["account_id"], name: "index_operation_account_products_on_account_id"
+    t.index ["active"], name: "index_operation_account_products_on_active"
+    t.index ["banking_id"], name: "index_operation_account_products_on_banking_id"
+    t.index ["billing_id"], name: "index_operation_account_products_on_billing_id"
+    t.index ["booking_id"], name: "index_operation_account_products_on_booking_id"
+    t.index ["clinic_id"], name: "index_operation_account_products_on_clinic_id"
+    t.index ["has_banking"], name: "index_operation_account_products_on_has_banking"
+    t.index ["has_billing"], name: "index_operation_account_products_on_has_billing"
+    t.index ["has_booking"], name: "index_operation_account_products_on_has_booking"
+    t.index ["has_clinic"], name: "index_operation_account_products_on_has_clinic"
+    t.index ["has_legal"], name: "index_operation_account_products_on_has_legal"
+    t.index ["has_receivement"], name: "index_operation_account_products_on_has_receivement"
+    t.index ["has_tax_filing"], name: "index_operation_account_products_on_has_tax_filing"
+    t.index ["has_tax_return"], name: "index_operation_account_products_on_has_tax_return"
+    t.index ["legal_ids"], name: "index_operation_account_products_on_legal_ids"
+    t.index ["receivement_id"], name: "index_operation_account_products_on_receivement_id"
+    t.index ["tax_filing_id"], name: "index_operation_account_products_on_tax_filing_id"
+    t.index ["tax_return_id"], name: "index_operation_account_products_on_tax_return_id"
+  end
+
+  create_table "product_entities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "blocked", default: false, null: false
+    t.bigint "account_id"
+    t.bigint "company_id"
+    t.integer "name"
+    t.integer "kind"
+    t.string "uniq_product"
+    t.decimal "amount", default: "0.0"
+    t.date "started_at"
+    t.integer "month_started_at"
+    t.integer "year_started_at"
+    t.text "notes"
+    t.integer "status"
+    t.string "slug"
+    t.index ["account_id"], name: "index_product_entities_on_account_id"
+    t.index ["active"], name: "index_product_entities_on_active"
+    t.index ["blocked"], name: "index_product_entities_on_blocked"
+    t.index ["company_id"], name: "index_product_entities_on_company_id"
+    t.index ["kind"], name: "index_product_entities_on_kind"
+    t.index ["month_started_at"], name: "index_product_entities_on_month_started_at"
+    t.index ["name"], name: "index_product_entities_on_name"
+    t.index ["slug"], name: "index_product_entities_on_slug", unique: true
+    t.index ["started_at"], name: "index_product_entities_on_started_at"
+    t.index ["status"], name: "index_product_entities_on_status"
+    t.index ["uniq_product"], name: "index_product_entities_on_uniq_product", unique: true
+    t.index ["year_started_at"], name: "index_product_entities_on_year_started_at"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "cpf", default: "", null: false
@@ -181,4 +253,12 @@ ActiveRecord::Schema.define(version: 2021_03_31_194856) do
   add_foreign_key "contact_addresses", "account_entities", column: "account_id"
   add_foreign_key "contact_emails", "account_entities", column: "account_id"
   add_foreign_key "contact_phones", "account_entities", column: "account_id"
+  add_foreign_key "operation_account_products", "account_entities", column: "account_id"
+  add_foreign_key "operation_account_products", "product_entities", column: "billing_id"
+  add_foreign_key "operation_account_products", "product_entities", column: "booking_id"
+  add_foreign_key "operation_account_products", "product_entities", column: "clinic_id"
+  add_foreign_key "operation_account_products", "product_entities", column: "receivement_id"
+  add_foreign_key "operation_account_products", "product_entities", column: "tax_return_id"
+  add_foreign_key "product_entities", "account_entities", column: "account_id"
+  add_foreign_key "product_entities", "company_entities", column: "company_id"
 end

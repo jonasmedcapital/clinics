@@ -6,8 +6,73 @@ Rails.application.routes.draw do
     namespace :v1, path: '/' do
 
       namespace :operations do
+
+        namespace :accounts do
+          post "products/read", to: "products#read"
+          post "products/read_with_calculations", to: "products#read_with_calculations"
+          post "products/read_with_account", to: "products#read_with_account"
+          post "products/list_with_accounts", to: "products#list_with_accounts"
+        end
+        
         namespace :products do
 
+          post "entities/list", to: "entities#list"
+          post "entities/read", to: "entities#read"
+          post "entities/create", to: "entities#create"
+          put "entities/update", to: "entities#update"
+
+          namespace :clinics do
+
+            namespace :cnaes do
+              post "entities/list", to: "entities#list"
+              post "entities/read", to: "entities#read"
+              post "entities/create", to: "entities#create"
+              put "entities/update", to: "entities#update"
+            end
+
+            namespace :invoices do
+              post "entities/list", to: "entities#list"
+              post "entities/read", to: "entities#read"
+              post "entities/create", to: "entities#create"
+              put "entities/update", to: "entities#update"
+            end
+
+            namespace :partners do
+              post "entities/list", to: "entities#list"
+              post "entities/read", to: "entities#read"
+              post "entities/create", to: "entities#create"
+              put "entities/update", to: "entities#update"
+            end
+
+            namespace :receipts do
+              post "entities/list", to: "entities#list"
+              post "entities/read", to: "entities#read"
+              post "entities/create", to: "entities#create"
+              put "entities/update", to: "entities#update"
+            end
+
+            namespace :regime_parameters do
+              post "entities/list", to: "entities#list"
+              post "entities/read", to: "entities#read"
+              post "entities/create", to: "entities#create"
+              put "entities/update", to: "entities#update"
+            end
+
+            namespace :social_contracts do
+              post "entities/list", to: "entities#list"
+              post "entities/read", to: "entities#read"
+              post "entities/create", to: "entities#create"
+              put "entities/update", to: "entities#update"
+            end
+
+            namespace :takers do
+              post "entities/list", to: "entities#list"
+              post "entities/read", to: "entities#read"
+              post "entities/create", to: "entities#create"
+              put "entities/update", to: "entities#update"
+            end
+
+          end
         end
       end
 
