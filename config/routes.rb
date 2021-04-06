@@ -23,54 +23,45 @@ Rails.application.routes.draw do
 
           namespace :clinics do
 
-            namespace :cnaes do
-              post "entities/list", to: "entities#list"
-              post "entities/read", to: "entities#read"
-              post "entities/create", to: "entities#create"
-              put "entities/update", to: "entities#update"
-            end
+            post "cnaes/list", to: "cnaes#list"
+            post "cnaes/read", to: "cnaes#read"
+            post "cnaes/create", to: "cnaes#create"
+            put "cnaes/update", to: "cnaes#update"
 
-            namespace :invoices do
-              post "entities/list", to: "entities#list"
-              post "entities/read", to: "entities#read"
-              post "entities/create", to: "entities#create"
-              put "entities/update", to: "entities#update"
-            end
+            post "dates/create", to: "dates#create"
+            post "dates/read", to: "dates#read"
+            post "dates/list", to: "dates#list"
+            put "dates/update", to: "dates#update"
 
-            namespace :partners do
-              post "entities/list", to: "entities#list"
-              post "entities/read", to: "entities#read"
-              post "entities/create", to: "entities#create"
-              put "entities/update", to: "entities#update"
-            end
+            post "invoices/list", to: "invoices#list"
+            post "invoices/read", to: "invoices#read"
+            post "invoices/create", to: "invoices#create"
+            put "invoices/update", to: "invoices#update"
 
-            namespace :receipts do
-              post "entities/list", to: "entities#list"
-              post "entities/read", to: "entities#read"
-              post "entities/create", to: "entities#create"
-              put "entities/update", to: "entities#update"
-            end
+            post "partners/list", to: "partners#list"
+            post "partners/read", to: "partners#read"
+            post "partners/create", to: "partners#create"
+            put "partners/update", to: "partners#update"
 
-            namespace :regime_parameters do
-              post "entities/list", to: "entities#list"
-              post "entities/read", to: "entities#read"
-              post "entities/create", to: "entities#create"
-              put "entities/update", to: "entities#update"
-            end
+            post "receipts/list", to: "receipts#list"
+            post "receipts/read", to: "receipts#read"
+            post "receipts/create", to: "receipts#create"
+            put "receipts/update", to: "receipts#update"
 
-            namespace :social_contracts do
-              post "entities/list", to: "entities#list"
-              post "entities/read", to: "entities#read"
-              post "entities/create", to: "entities#create"
-              put "entities/update", to: "entities#update"
-            end
+            post "regime_parameters/list", to: "regime_parameters#list"
+            post "regime_parameters/read", to: "regime_parameters#read"
+            post "regime_parameters/create", to: "regime_parameters#create"
+            put "regime_parameters/update", to: "regime_parameters#update"
 
-            namespace :takers do
-              post "entities/list", to: "entities#list"
-              post "entities/read", to: "entities#read"
-              post "entities/create", to: "entities#create"
-              put "entities/update", to: "entities#update"
-            end
+            post "social_contracts/list", to: "social_contracts#list"
+            post "social_contracts/read", to: "social_contracts#read"
+            post "social_contracts/create", to: "social_contracts#create"
+            put "social_contracts/update", to: "social_contracts#update"
+
+            post "takers/list", to: "takers#list"
+            post "takers/read", to: "takers#read"
+            post "takers/create", to: "takers#create"
+            put "takers/update", to: "takers#update"
 
           end
         end

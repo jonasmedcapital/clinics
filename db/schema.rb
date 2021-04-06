@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_135130) do
+ActiveRecord::Schema.define(version: 2021_04_06_144242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,21 @@ ActiveRecord::Schema.define(version: 2021_04_06_135130) do
     t.index ["tax_return_id"], name: "index_operation_account_products_on_tax_return_id"
   end
 
+  create_table "product_dates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.boolean "open", default: true, null: false
+    t.integer "month"
+    t.integer "year"
+    t.string "uniq_product_date"
+    t.bigint "product_id"
+    t.index ["month"], name: "index_product_dates_on_month"
+    t.index ["product_id"], name: "index_product_dates_on_product_id"
+    t.index ["uniq_product_date"], name: "index_product_dates_on_uniq_product_date", unique: true
+    t.index ["year"], name: "index_product_dates_on_year"
+  end
+
   create_table "product_entities", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -259,6 +274,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_135130) do
   add_foreign_key "operation_account_products", "product_entities", column: "clinic_id"
   add_foreign_key "operation_account_products", "product_entities", column: "receivement_id"
   add_foreign_key "operation_account_products", "product_entities", column: "tax_return_id"
+  add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "account_entities", column: "account_id"
   add_foreign_key "product_entities", "company_entities", column: "company_id"
 end
