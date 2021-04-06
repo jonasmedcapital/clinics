@@ -32,7 +32,7 @@ module Users
         
         obj = obj.merge({ "cnpj_pretty" => model.cnpj_pretty })
         obj = obj.merge({ "subkind_pretty" => ::Users::Companies::EntityRepository::ENUM_SUBKIND[model.subkind.first] }) if model.subkind
-        obj = obj.merge({ "class_type" => ::App::ClassName::FromSchema::TRANSLATE[model.class.name] })
+        # obj = obj.merge({ "class_type" => ::App::ClassName::FromSchema::TRANSLATE[model.class.name] })
         obj = obj.merge({ "email" => email_attrs })
         obj = obj.merge({ "phone" => phone_attrs })
         obj = obj.merge({ "address" => address_attrs })

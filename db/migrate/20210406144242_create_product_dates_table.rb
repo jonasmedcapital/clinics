@@ -1,8 +1,7 @@
 class CreateProductDatesTable < ActiveRecord::Migration[5.2]
   def change
     create_table :product_dates do |t|
-      t.datetime :created_at, null: false
-      t.datetime :updated_at, null: false
+      t.timestamps
       t.boolean :active, default: true, null: false
       t.boolean :open, default: true, null: false
       t.integer :month

@@ -1,8 +1,7 @@
 class CreateAccountProductsTable < ActiveRecord::Migration[5.2]
   def change
     create_table :operation_account_products do |t|
-      t.datetime :created_at, null: false
-      t.datetime :updated_at, null: false
+      t.timestamps
       t.boolean :active, default: true, null: false
       t.bigint :account_id
       t.bigint :tax_return_id

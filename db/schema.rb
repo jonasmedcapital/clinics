@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_144242) do
+ActiveRecord::Schema.define(version: 2021_04_06_172658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,22 @@ ActiveRecord::Schema.define(version: 2021_04_06_144242) do
     t.index ["tax_return_id"], name: "index_operation_account_products_on_tax_return_id"
   end
 
+  create_table "operation_clinic_takers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "clinic_id"
+    t.bigint "taker_id"
+    t.string "taker_type"
+    t.string "taker_number"
+    t.string "taker_name"
+    t.index ["clinic_id"], name: "index_operation_clinic_takers_on_clinic_id"
+    t.index ["taker_id"], name: "index_operation_clinic_takers_on_taker_id"
+    t.index ["taker_name"], name: "index_operation_clinic_takers_on_taker_name"
+    t.index ["taker_number"], name: "index_operation_clinic_takers_on_taker_number"
+    t.index ["taker_type"], name: "index_operation_clinic_takers_on_taker_type"
+  end
+
   create_table "product_dates", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -274,6 +290,7 @@ ActiveRecord::Schema.define(version: 2021_04_06_144242) do
   add_foreign_key "operation_account_products", "product_entities", column: "clinic_id"
   add_foreign_key "operation_account_products", "product_entities", column: "receivement_id"
   add_foreign_key "operation_account_products", "product_entities", column: "tax_return_id"
+  add_foreign_key "operation_clinic_takers", "product_entities", column: "clinic_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "account_entities", column: "account_id"
   add_foreign_key "product_entities", "company_entities", column: "company_id"
