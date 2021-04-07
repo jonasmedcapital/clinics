@@ -14,7 +14,7 @@ class Operations::Products::Clinics::Takers::List
   end
 
   def takers
-    @takers ||= ::Operations::Products::Clinics::TakerRepository.all_active_by_clinic(@taker_params[:clinic_id])
+    @takers ||= ::Operations::Products::Clinics::TakerRepository.all_active_clinic(@taker_params[:clinic_id])
   end
   
   def current_user

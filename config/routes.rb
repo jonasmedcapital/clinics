@@ -23,7 +23,7 @@ Rails.application.routes.draw do
 
           namespace :clinics do
 
-            post "cnaes/list", to: "cnaes#list"
+            post "cnaes/list_ctiss", to: "cnaes#list_ctiss"
             post "cnaes/read", to: "cnaes#read"
             post "cnaes/create", to: "cnaes#create"
             put "cnaes/update", to: "cnaes#update"

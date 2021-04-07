@@ -13,7 +13,7 @@ class Operations::Products::DateRepository < Base
   end
   
 
-  def self.all_active_by_product(product_id)
+  def self.all_active_product(product_id)
     entity.where(active: true, product_id: product_id).order(uniq_product_date: :desc)
   end
 

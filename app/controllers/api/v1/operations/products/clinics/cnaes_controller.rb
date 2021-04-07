@@ -24,6 +24,11 @@ module API
               list = ::Operations::Products::Clinics::Cnaes::List.new(params)
               render :json => {:status => list.status, :process => list.process?, :type => list.type, :message => list.message, :data => list.data}.as_json
             end
+
+            def list_ctiss
+              list = ::Operations::Products::Clinics::Cnaes::ListCtiss.new(params)
+              render :json => {:status => list.status, :process => list.process?, :type => list.type, :message => list.message, :data => list.data}.as_json
+            end
             
           end
         end

@@ -28,7 +28,7 @@ class Operations::Products::Clinics::TakerRepository < Base
     entity.find_by(id: id)
   end
 
-  def self.all_active_by_clinic(clinic_id)
+  def self.all_active_clinic(clinic_id)
     entity.where(active: true, clinic_id: clinic_id).order(:created_at)
   end
 

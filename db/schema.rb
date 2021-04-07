@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_06_192127) do
+ActiveRecord::Schema.define(version: 2021_04_06_223953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -174,6 +174,20 @@ ActiveRecord::Schema.define(version: 2021_04_06_192127) do
     t.index ["tax_return_id"], name: "index_operation_account_products_on_tax_return_id"
   end
 
+  create_table "operation_clinic_cnaes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "clinic_id"
+    t.integer "kind"
+    t.string "cnae_code"
+    t.string "cnae_description"
+    t.index ["clinic_id"], name: "index_operation_clinic_cnaes_on_clinic_id"
+    t.index ["cnae_code"], name: "index_operation_clinic_cnaes_on_cnae_code"
+    t.index ["cnae_description"], name: "index_operation_clinic_cnaes_on_cnae_description"
+    t.index ["kind"], name: "index_operation_clinic_cnaes_on_kind"
+  end
+
   create_table "operation_clinic_partners", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -203,6 +217,52 @@ ActiveRecord::Schema.define(version: 2021_04_06_192127) do
     t.index ["name"], name: "index_operation_clinic_partners_on_name"
     t.index ["operational"], name: "index_operation_clinic_partners_on_operational"
     t.index ["technical"], name: "index_operation_clinic_partners_on_technical"
+  end
+
+  create_table "operation_clinic_regime_parameters", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "clinic_id"
+    t.boolean "monthly"
+    t.boolean "per_partner"
+    t.integer "tax_regime"
+    t.integer "special_tax_regime"
+    t.integer "legal_nature"
+    t.integer "year"
+    t.index ["clinic_id"], name: "index_operation_clinic_regime_parameters_on_clinic_id"
+    t.index ["legal_nature"], name: "index_operation_clinic_regime_parameters_on_legal_nature"
+    t.index ["monthly"], name: "index_operation_clinic_regime_parameters_on_monthly"
+    t.index ["per_partner"], name: "index_operation_clinic_regime_parameters_on_per_partner"
+    t.index ["special_tax_regime"], name: "index_operation_clinic_regime_parameters_on_special_tax_regime"
+    t.index ["tax_regime"], name: "index_operation_clinic_regime_parameters_on_tax_regime"
+    t.index ["year"], name: "index_operation_clinic_regime_parameters_on_year"
+  end
+
+  create_table "operation_clinic_social_contracts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "clinic_id"
+    t.decimal "social_capital"
+    t.integer "shares"
+    t.text "social_object"
+    t.text "administration_clause"
+    t.text "profit_distribution"
+    t.integer "tax_regime"
+    t.integer "special_tax_regime"
+    t.integer "legal_nature"
+    t.string "registry_number"
+    t.string "regional_tax_number"
+    t.string "municipal_tax_number"
+    t.index ["active"], name: "index_operation_clinic_social_contracts_on_active"
+    t.index ["clinic_id"], name: "index_operation_clinic_social_contracts_on_clinic_id"
+    t.index ["legal_nature"], name: "index_operation_clinic_social_contracts_on_legal_nature"
+    t.index ["municipal_tax_number"], name: "index_operation_clinic_social_contracts_on_municipal_tax_number"
+    t.index ["regional_tax_number"], name: "index_operation_clinic_social_contracts_on_regional_tax_number"
+    t.index ["registry_number"], name: "index_operation_clinic_social_contracts_on_registry_number"
+    t.index ["special_tax_regime"], name: "index_operation_clinic_social_contracts_on_special_tax_regime"
+    t.index ["tax_regime"], name: "index_operation_clinic_social_contracts_on_tax_regime"
   end
 
   create_table "operation_clinic_takers", force: :cascade do |t|
@@ -321,7 +381,10 @@ ActiveRecord::Schema.define(version: 2021_04_06_192127) do
   add_foreign_key "operation_account_products", "product_entities", column: "clinic_id"
   add_foreign_key "operation_account_products", "product_entities", column: "receivement_id"
   add_foreign_key "operation_account_products", "product_entities", column: "tax_return_id"
+  add_foreign_key "operation_clinic_cnaes", "product_entities", column: "clinic_id"
   add_foreign_key "operation_clinic_partners", "product_entities", column: "clinic_id"
+  add_foreign_key "operation_clinic_regime_parameters", "product_entities", column: "clinic_id"
+  add_foreign_key "operation_clinic_social_contracts", "product_entities", column: "clinic_id"
   add_foreign_key "operation_clinic_takers", "product_entities", column: "clinic_id"
   add_foreign_key "product_dates", "product_entities", column: "product_id"
   add_foreign_key "product_entities", "account_entities", column: "account_id"
