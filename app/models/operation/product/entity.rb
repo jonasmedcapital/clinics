@@ -36,6 +36,7 @@ class Operation::Product::Entity < ApplicationRecord
   has_many :clinic_cnaes, class_name: "Operation::Product::Clinic::Cnae", foreign_key: "clinic_id"
   has_many :clinic_regime_parameter, class_name: "Operation::Product::Clinic::RegimeParameter", foreign_key: "clinic_id"
   has_many :clinic_social_contract, class_name: "Operation::Product::Clinic::SocialContract", foreign_key: "clinic_id"
+  has_many :clinic_receipt, class_name: "Operation::Product::Clinic::Receipt", foreign_key: "clinic_id"
 
   # Validations
   validates :name, presence: { message: "Favor inserir o nome do Produto. " }
