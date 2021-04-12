@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_07_005336) do
+ActiveRecord::Schema.define(version: 2021_04_09_185322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -131,6 +131,34 @@ ActiveRecord::Schema.define(version: 2021_04_07_005336) do
     t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
     t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
+  end
+
+  create_table "nfe_company_entities", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "clinic_id"
+    t.bigint "company_id"
+    t.string "nfe_company_id"
+    t.index ["clinic_id"], name: "index_nfe_company_entities_on_clinic_id"
+    t.index ["company_id"], name: "index_nfe_company_entities_on_company_id"
+    t.index ["nfe_company_id"], name: "index_nfe_company_entities_on_nfe_company_id"
+  end
+
+  create_table "nfe_invoice_entities", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "clinic_id"
+    t.bigint "company_id"
+    t.bigint "receipt_id"
+    t.string "nfe_invoice_id"
+    t.integer "status"
+    t.index ["clinic_id"], name: "index_nfe_invoice_entities_on_clinic_id"
+    t.index ["company_id"], name: "index_nfe_invoice_entities_on_company_id"
+    t.index ["nfe_invoice_id"], name: "index_nfe_invoice_entities_on_nfe_invoice_id"
+    t.index ["receipt_id"], name: "index_nfe_invoice_entities_on_receipt_id"
+    t.index ["status"], name: "index_nfe_invoice_entities_on_status"
   end
 
   create_table "operation_account_products", force: :cascade do |t|
@@ -474,6 +502,11 @@ ActiveRecord::Schema.define(version: 2021_04_07_005336) do
   add_foreign_key "contact_addresses", "account_entities", column: "account_id"
   add_foreign_key "contact_emails", "account_entities", column: "account_id"
   add_foreign_key "contact_phones", "account_entities", column: "account_id"
+  add_foreign_key "nfe_company_entities", "company_entities", column: "company_id"
+  add_foreign_key "nfe_company_entities", "product_entities", column: "clinic_id"
+  add_foreign_key "nfe_invoice_entities", "company_entities", column: "company_id"
+  add_foreign_key "nfe_invoice_entities", "operation_clinic_receipts", column: "receipt_id"
+  add_foreign_key "nfe_invoice_entities", "product_entities", column: "clinic_id"
   add_foreign_key "operation_account_products", "account_entities", column: "account_id"
   add_foreign_key "operation_account_products", "product_entities", column: "billing_id"
   add_foreign_key "operation_account_products", "product_entities", column: "booking_id"

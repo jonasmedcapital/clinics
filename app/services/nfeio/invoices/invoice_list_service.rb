@@ -1,22 +1,20 @@
-class Nfeio::Companies::Notifications::NotificationShowService
+class Nfeio::Invoices::InvoiceListService
 
   require 'net/http'
   require 'uri'
   require 'json'
 
-  # comes from some service that needs to look one company inside nfeio
-  def initialize # clinic
-    # @clinic = clinic
-    # @nfe_company = clinic.nfe_company
+  # comes from some service that needs to look list of invoices inside nfeio
+  def initialize # nfe_company
+    # @nfe_company = nfe_company
     
-    response = show
+    response = list
   end
 
-  def show
-    # initialize request data
+  def list
+    # initialize request data 
     nfe_company_id = "5fc0e90bd942771f14f9a8fd" # @nfe_company.nfe_company_id
-    nfe_notification_id = "notification_id"
-    url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/notifications/#{nfe_notification_id}"
+    url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/serviceinvoices"
     api_key = ENV["API_KEY"] # [ENV]
     user_agent = "NFe.io Ruby Client v0.3.2"
     content_type = "application/json"
@@ -34,10 +32,20 @@ class Nfeio::Companies::Notifications::NotificationShowService
     response = http.request(request)
 
     # manipulate response
-    notification_hash = JSON.parse(response.body)
-  end
+    invoices_hash = JSON.parse(response.body)
+    
+    # manipulate response
+    if ["200", "201", "202"].include? response.code
+      invoices_hash = JSON.parse(response.body)
 
+      puts invoices_hash
+    else
+      puts "ERROR AO LISTAR NFs"
+    end    
+  end
+  
 end
 
-#### company hash looks like #### 
-   
+
+#   #### invoices hash looks like #### 
+#   { }

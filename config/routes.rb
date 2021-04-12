@@ -5,6 +5,20 @@ Rails.application.routes.draw do
   namespace :api, path: '/' do
     namespace :v1, path: '/' do
 
+      namespace :nfe do
+
+        post "companies/list", to: "companies#list"
+        post "companies/read", to: "companies#read"
+        post "companies/create", to: "companies#create"
+        put "companies/update", to: "companies#update"
+
+        post "invoices/list", to: "invoices#list"
+        post "invoices/read", to: "invoices#read"
+        post "invoices/create", to: "invoices#create"
+        put "invoices/update", to: "invoices#update"
+
+      end
+
       namespace :operations do
 
         namespace :accounts do

@@ -1,4 +1,4 @@
-class Nfeio::Entities::InvoiceCreateService
+class Nfeio::Invoices::InvoiceCreateService
 
   require 'net/http'
   require 'uri'

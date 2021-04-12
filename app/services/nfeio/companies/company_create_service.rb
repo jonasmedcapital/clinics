@@ -1,4 +1,4 @@
-class Nfeio::Companies::Entities::CompanyCreateService
+class Nfeio::Companies::CompanyCreateService
 
   require 'net/http'
   require 'uri'

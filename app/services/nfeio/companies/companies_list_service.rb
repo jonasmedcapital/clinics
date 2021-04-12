@@ -1,20 +1,17 @@
-class Nfeio::Entities::InvoiceListService
+class Nfeio::Companies::CompaniesListService
 
   require 'net/http'
   require 'uri'
   require 'json'
 
-  # comes from some service that needs to look list of invoices inside nfeio
-  def initialize # nfe_company
-    # @nfe_company = nfe_company
-    
+  # comes from some service that needs to look list of companies inside nfeio
+  def initialize
     response = list
   end
 
   def list
     # initialize request data 
-    nfe_company_id = "5fc0e90bd942771f14f9a8fd" # @nfe_company.nfe_company_id
-    url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/serviceinvoices"
+    url = "https://api.nfe.io/v1/companies"
     api_key = ENV["API_KEY"] # [ENV]
     user_agent = "NFe.io Ruby Client v0.3.2"
     content_type = "application/json"
@@ -32,20 +29,16 @@ class Nfeio::Entities::InvoiceListService
     response = http.request(request)
 
     # manipulate response
-    invoices_hash = JSON.parse(response.body)
-    
-    # manipulate response
     if ["200", "201", "202"].include? response.code
-      invoices_hash = JSON.parse(response.body)
-
-      puts invoices_hash
+      companies_hash = JSON.parse(response.body)
+      puts companies_hash["companies"]
     else
-      puts "ERROR AO LISTAR NFs"
-    end    
-  end
-  
+      puts "ERROR AO MOSTRAR As EMPRESAs"
+      puts "PROBLEMAS NA API DO NFEIO"
+    end
+
+  end  
 end
 
-
-#   #### invoices hash looks like #### 
+#   #### companies hash looks like #### 
 #   { }

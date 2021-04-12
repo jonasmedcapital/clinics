@@ -1,4 +1,4 @@
-class Nfeio::Companies::Entities::CompanyDeleteService
+class Nfeio::Companies::CompanyDeleteService
 
   require 'net/http'
   require 'uri'

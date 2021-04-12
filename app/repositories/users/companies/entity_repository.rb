@@ -68,8 +68,8 @@ class Users::Companies::EntityRepository < Base
     entity.where(active: true).where(name: name).first
   end
 
-  def list_all(all)
-    ::Users::UserMapper.new.map_all_active(all)
+  def self.list_all(all)
+    mapper.map_all_active(all)
   end
 
   def read(user)

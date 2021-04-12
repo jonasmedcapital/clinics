@@ -1,4 +1,4 @@
-class Nfeio::Entities::InvoiceDownloadXmlService
+class Nfeio::Invoices::InvoiceDownloadPdfService
 
   require 'net/http'
   require 'open-uri'
@@ -15,10 +15,10 @@ class Nfeio::Entities::InvoiceDownloadXmlService
   end
 
   def download
-    # initialize request data
+    # initialize request data 
     nfe_company_id = @nfe_company.nfe_company_id
     nfe_invoice_id = @nfe_invoice.nfe_invoice_id
-    url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/serviceinvoices/#{nfe_invoice_id}/xml"
+    url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/serviceinvoices/#{nfe_invoice_id}/pdf"
     api_key = ENV["API_KEY"] # [ENV]
     user_agent = "NFe.io Ruby Client v0.3.2"
     content_type = "application/json"
@@ -43,13 +43,12 @@ class Nfeio::Entities::InvoiceDownloadXmlService
       file = URI.open(download_link)
       
       # attach file active storage
-      @nfe_invoice.xml.attach(io: file, filename: filename)
+      @nfe_invoice.pdf.attach(io: file, filename: filename)
       @nfe_invoice.save!
     else
       # Job
-      AttachXmlJob.set(wait: 30.seconds).perform_later @nfe_invoice      
+      AttachPdfJob.set(wait: 30.seconds).perform_later @nfe_invoice
     end
-    
   end
 end  
 

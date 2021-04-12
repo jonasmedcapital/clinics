@@ -1,4 +1,4 @@
-class Nfeio::Companies::Notifications::NotificationEmailService
+class Nfeio::Notifications::NotificationEmailService
 
   require 'net/http'
   require 'uri'

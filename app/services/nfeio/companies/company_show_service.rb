@@ -1,4 +1,4 @@
-class Nfeio::Companies::Entities::CompanyShowService
+class Nfeio::Companies::CompanyShowService
 
   require 'net/http'
   require 'uri'

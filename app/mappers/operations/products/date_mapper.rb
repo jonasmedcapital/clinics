@@ -2,7 +2,8 @@ class Operations::Products::DateMapper
 
   def self.map model
     product = model.product
-    account = model.account
+    byebug
+    account = model.product.account
 
     model_attributes = model.attributes
     if product.name == "medfiling"

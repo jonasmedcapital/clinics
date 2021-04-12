@@ -44,7 +44,7 @@ module Users
         model_collection.map{ |model| map(model) }
       end
       
-      def map_all_active model_collection
+      def self.map_all_active model_collection
         model_collection.where(active: true).map{ |model| map(model) }
       end
 

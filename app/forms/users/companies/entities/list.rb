@@ -10,8 +10,8 @@ module Users
           @company_params = params.require(:company).permit(:active, :kind, :subkind)
           @current_user_params = params.require(:current_user).permit(:current_user_id, :feature)
           
-          @can_current_user_list_company = can_current_user_list_company?
-          return false unless @can_current_user_list_company
+          # @can_current_user_list_company = can_current_user_list_company?
+          # return false unless @can_current_user_list_company
           @companies = companies
 
         end
@@ -29,28 +29,30 @@ module Users
         end
         
         def process?
-          return false unless @can_current_user_list_company
+          # return false unless @can_current_user_list_company
           true
         end
 
         def status
-          return :forbidden unless @can_current_user_list_company
+          # return :forbidden unless @can_current_user_list_company
           :ok
         end
         
 
         def data
-          return cln = [] unless @can_current_user_list_company
-          cln = ::Users::Companies::EntityRepository.list_all_with_permissions @companies, current_user, @company_params[:kind]
+          # return cln = [] unless @can_current_user_list_company
+          # cln = ::Users::Companies::EntityRepository.list_all_with_permissions @companies, current_user, @company_params[:kind]
+          cln = ::Users::Companies::EntityRepository.list_all(@companies)
+
           return {:cln => cln.compact}.as_json
         end
 
         def message
-          return message = "A ação não é permitida" unless @can_current_user_list_company
+          # return message = "A ação não é permitida" unless @can_current_user_list_company
         end
 
         def type
-          return "danger" unless @can_current_user_list_company
+          # return "danger" unless @can_current_user_list_company
         end
 
         private

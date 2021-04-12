@@ -1,4 +1,4 @@
-class Nfeio::Companies::Entities::CompanyUpdateService
+class Nfeio::Companies::CompanyUpdateService
   require 'net/http'
   require 'uri'
   require 'json'

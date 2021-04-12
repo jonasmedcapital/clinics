@@ -1,14 +1,13 @@
-class Nfeio::Companies::Notifications::NotificationDeleteService
+class Nfeio::Invoices::InvoiceDeleteService
 
   require 'net/http'
   require 'uri'
   require 'json'
   
-  # comes from delete [company, clinic] form
-  def initialize # clinic
-    # @clinic = clinic
-    # @company = clinic.company
-    # @nfe_company = clinic.nfe_company
+  # comes from delete join table receipt and nfe_invoice form
+  def initialize nfe_invoice
+    @nfe_invoice = nfe_invoice
+    # @nfe_company = @clinic.nfe_company
     
     response = delete
   end
@@ -16,8 +15,8 @@ class Nfeio::Companies::Notifications::NotificationDeleteService
   def delete
     # initialize request data
     nfe_company_id = "5fc0e90bd942771f14f9a8fd" # @nfe_company.nfe_company_id
-    nfe_notification_id = "notification_id"
-    url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/notifications/#{nfe_notification_id}"
+    nfe_invoice_id = @nfe_invoice.nfe_invoice_id # @nfe_invoice.nfe_invoice_id
+    url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/serviceinvoices/#{nfe_invoice_id}" 
     api_key = ENV["API_KEY"] # [ENV]
     user_agent = "NFe.io Ruby Client v0.3.2"
     content_type = "application/json"
@@ -34,11 +33,18 @@ class Nfeio::Companies::Notifications::NotificationDeleteService
     # response
     response = http.request(request)
 
-    # manipulate response 
-    notification_hash = JSON.parse(response.body) 
-    
+    # manipulate response
+    invoice_hash = JSON.parse(response.body)
+
+    if ["200", "201", "202"].include? response.code
+      @nfe_invoice.update(active: false)
+    else
+      puts "ERROR AO CANCELAR NF"
+    end
+
   end
-  
 end
 
-#### company hash looks like #### 
+#   #### invoice hash looks like #### 
+#   { something here }
+

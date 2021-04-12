@@ -4,7 +4,6 @@ class Operations::Products::Clinics::ReceiptRepository < Base
     obj = entity.new    
     obj.clinic_id = attrs["clinic_id"]
     obj.date_id = attrs["date_id"]
-    obj.bank_id = attrs["bank_id"]
     obj.taker_id = attrs["taker_id"]
     obj.taker_type = TAKER_TYPE[attrs["taker_type"]]
     obj.taker_name = attrs["taker_name"]

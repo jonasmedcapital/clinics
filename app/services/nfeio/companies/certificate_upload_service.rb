@@ -1,4 +1,4 @@
-class Nfeio::Companies::Entities::CertificateUploadService
+class Nfeio::Companies::CertificateUploadService
 
   require 'net/http'
   require 'uri'
