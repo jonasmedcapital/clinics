@@ -5,8 +5,8 @@ class Nfeio::Invoices::InvoiceCreateService
   require 'json'
   
   # comes from receipt create form
-  def initialize invoice_entity
-    @nfe_invoice = invoice_entity
+  def initialize invoice
+    @nfe_invoice = invoice
     @receipt = @nfe_invoice.receipt
     @nfe_company = @nfe_invoice.clinic.nfe_company
 
@@ -17,59 +17,12 @@ class Nfeio::Invoices::InvoiceCreateService
     # initialize request data
     nfe_company_id = @nfe_company.nfe_company_id
     url = "https://api.nfe.io/v1/companies/#{nfe_company_id}/serviceinvoices"
-    api_key = "eYJBkMdoMOlZgeV1qyup6jf9yVHvB4jb5qBNXktSRdH7NHKIVb1aR7kFbYuiQfZk393" # ENV["API_KEY"]
+    api_key = ENV["API_KEY"]
     user_agent = "NFe.io Ruby Client v0.3.2"
     content_type = "application/json"
 
     # initialize request json 
     get_receipt
-
-    # @invoice_params = {
-    #   borrower: {
-    #     type: "NaturalPerson",
-    #     name: @receipt.taker_name,
-    #     federalTaxNumber: @receipt.taker_federal_tax_number,
-    #     email: "jonas.trindade@medcapital.com.br",
-    #     address: {
-    #       country: @receipt.taker_country,
-    #       postalCode: @receipt.taker_postal_code,
-    #       street: @receipt.taker_street,
-    #       number:  @receipt.taker_number,
-    #       additionalInformation: @receipt.taker_complement,
-    #       district: @receipt.taker_district,
-    #       city: {
-    #         code: @receipt.taker_city_code,
-    #         name: @receipt.taker_city_name
-    #       },
-    #       state: @receipt.taker_state
-    #     }
-    #   },
-    #   cityServiceCode: @receipt.city_service_code,
-    #   cnaeCode: @receipt.cnae_code,
-    #   description: @receipt.description,
-    #   servicesAmount: @receipt.services_amount.to_f,
-    #   issuedOn: @receipt.issued_on.to_time,
-    #   taxationType: @receipt.taxation_type.camelize,
-    #   issRate: @receipt.iss_rate.to_f,
-    #   issTaxAmount: @receipt.iss_tax_amount.to_f,
-    #   deductionsAmount: @receipt.deductions_amount.to_f,
-    #   discountUnconditionedAmount: @receipt.unconditioned_amount.to_f,
-    #   discountConditionedAmount: @receipt.conditioned_amount.to_f,
-    #   irAmountWithheld: @receipt.ir_amount_withheld.to_f,
-    #   pisAmountWithheld: @receipt.pis_amount_withheld.to_f,
-    #   cofinsAmountWithheld: @receipt.cofins_amount_withheld.to_f,
-    #   csllAmountWithheld: @receipt.csll_amount_withheld.to_f,
-    #   inssAmountWithheld: @receipt.inss_amount_withheld.to_f,
-    #   issAmountWithheld: @receipt.iss_amount_withheld.to_f,
-    #   othersAmountWithheld: @receipt.others_amount_withheld.to_f,
-    #   location: {
-    #     state: @receipt.service_state,
-    #     city: {
-    #       code: @receipt.service_city_code,
-    #       name: @receipt.service_city_name
-    #     }
-    #   }
-    # }
 
     # request
     uri = URI.parse(url)
@@ -82,6 +35,7 @@ class Nfeio::Invoices::InvoiceCreateService
     request.body = @invoice_params.to_json
 
     # response
+
     response = http.request(request)
 
     if ["200", "201", "202"].include? response.code
@@ -96,7 +50,7 @@ class Nfeio::Invoices::InvoiceCreateService
       AttachXmlJob.set(wait: 40.seconds).perform_later @nfe_invoice
     else
       # error
-      puts "ERRO AO CRIAR NOTA FISCAL"
+      puts "===========================ERRO AO CRIAR NOTA FISCAL======================="
     end
   end
 
@@ -203,7 +157,7 @@ class Nfeio::Invoices::InvoiceCreateService
         }
       }
     else
-      puts "QUEBRADO"
+      puts "======================================JSON DA NF QUEBRADO================================================="
     end
   end
 

@@ -1,36 +1,36 @@
 class Nfe::Invoices::List
 
   def initialize(params)
-    @entity_params = params.require(:entity).permit(:clinic_id)
+    @invoice_params = params.require(:invoice).permit(:clinic_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
-    # @can_current_user_list_entity = can_current_user_list_entity?
-    # return false unless @can_current_user_list_entity
+    # @can_current_user_list_invoice = can_current_user_list_invoice?
+    # return false unless @can_current_user_list_invoice
 
     @entities = entities
   end
 
   def entities
-    ::Nfe::InvoiceRepository.all_active_clinic(@entity_params[:clinic_id])
+    ::Nfe::InvoiceRepository.all_active_clinic(@invoice_params[:clinic_id])
   end
 
  def status
-    # return :forbidden unless @can_current_user_list_entity
+    # return :forbidden unless @can_current_user_list_invoice
     @status
   end
 
   def process?
-    # return false unless @can_current_user_list_entity
+    # return false unless @can_current_user_list_invoice
     @process
   end
 
   def type
-    # return "danger" unless @can_current_user_list_entity
+    # return "danger" unless @can_current_user_list_invoice
     @type
   end
 
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_list_entity
+    # return message = "A ação não é permitida" unless @can_current_user_list_invoice
     @message
   end
 
@@ -54,8 +54,8 @@ class Nfe::Invoices::List
 
   private
 
-  def can_current_user_list_entity?
-    @can_current_user_list_entity ||= ::UserPolicies.new(@current_user_params[:current_user_id], "list", "medclinic_invoices").can_current_user?
+  def can_current_user_list_invoice?
+    @can_current_user_list_invoice ||= ::UserPolicies.new(@current_user_params[:current_user_id], "list", "medclinic_invoices").can_current_user?
   end
 
 end

@@ -4,20 +4,20 @@ class Nfe::Comapnies::Delete
   attr_accessor :status, :type, :message
 
   def initialize(params)
-    @entity_params = params.require(:entity).permit(:id, :active)
+    @company_params = params.require(:company).permit(:id, :active)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
     
-    # @can_current_user_delete_entity = can_current_user_delete_entity?
-    # return false unless @can_current_user_delete_entity
+    # @can_current_user_delete_company = can_current_user_delete_company?
+    # return false unless @can_current_user_delete_company
 
-    @entity = entity
-    @entity.attributes = @entity_params
+    @company = company
+    @company.attributes = @company_params
 
-    @valid = @entity.valid?
+    @valid = @company.valid?
   end
 
-  def entity
-    @entity ||= ::Nfe::ComapnyRepository.find_by_id(@entity_params[:id])
+  def company
+    @company ||= ::Nfe::ComapnyRepository.find_by_id(@company_params[:id])
   end
 
   def current_user
@@ -25,13 +25,13 @@ class Nfe::Comapnies::Delete
   end
 
   def data
-    # return cln = [] unless @can_current_user_delete_entity
-    cln = ::Nfe::ComapnyRepository.read @entity
+    # return cln = [] unless @can_current_user_delete_company
+    cln = ::Nfe::ComapnyRepository.read @company
     return {:cln => cln.compact}.as_json
   end
 
   def status
-    # return :forbidden unless @can_current_user_delete_entity
+    # return :forbidden unless @can_current_user_delete_company
     if @valid
       return :ok
     else
@@ -40,7 +40,7 @@ class Nfe::Comapnies::Delete
   end
 
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_delete_entity
+    # return message = "A ação não é permitida" unless @can_current_user_delete_company
     if @valid
       message = "NF cancelada com sucesso!"
       return message
@@ -50,7 +50,7 @@ class Nfe::Comapnies::Delete
   end
 
   def type
-    # return "danger" unless @can_current_user_delete_entity
+    # return "danger" unless @can_current_user_delete_company
     if @valid
       return "success"
     else
@@ -59,10 +59,10 @@ class Nfe::Comapnies::Delete
   end
 
   def save
-    # return false unless @can_current_user_delete_entity
+    # return false unless @can_current_user_delete_company
     ActiveRecord::Base.transaction do
       if @valid
-        @entity.save
+        @company.save
         true
       else
         false
@@ -73,8 +73,8 @@ class Nfe::Comapnies::Delete
 
   private
 
-  def can_current_user_delete_entity?
-    @can_current_user_delete_entity ||= ::UserPolicies.new(@current_user_params[:current_user_id], "delete", "medclinic_invoices").can_current_user?
+  def can_current_user_delete_company?
+    @can_current_user_delete_company ||= ::UserPolicies.new(@current_user_params[:current_user_id], "delete", "medclinic_invoices").can_current_user?
   end
   
 end

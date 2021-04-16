@@ -30,6 +30,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
+# Shim to load environment variables from .env into ENV in development.
+gem 'dotenv-rails', groups: [:development, :test]
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -41,6 +44,10 @@ gem 'friendly_id', '~> 5.2.4'
 
 # Flexible authentication solution for Rails with Warden.
 gem 'devise'
+
+# Webpacker
+gem 'webpacker'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

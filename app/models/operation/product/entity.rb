@@ -30,12 +30,14 @@ class Operation::Product::Entity < ApplicationRecord
   has_many :booking_payments, class_name: "Operation::Product::Booking::Payment", foreign_key: "booking_id"
 
   # Config Clinic
+  has_one :nfe_company, class_name: "Nfe::Company", foreign_key: "clinic_id"
+  has_one :clinic_regime_parameter, class_name: "Operation::Product::Clinic::RegimeParameter", foreign_key: "clinic_id"
+  has_one :clinic_social_contract, class_name: "Operation::Product::Clinic::SocialContract", foreign_key: "clinic_id"
+  has_many :nfe_invoices, class_name: "Nfe::Invoice", foreign_key: "clinic_id"
+  has_many :nfe_certificates, class_name: "Nfe::Certificate", foreign_key: "clinic_id"
   has_many :clinic_takers, class_name: "Operation::Product::Clinic::Taker", foreign_key: "clinic_id"
   has_many :clinic_partners, class_name: "Operation::Product::Clinic::Partner", foreign_key: "clinic_id"
-  has_many :social_contract, class_name: "Operation::Product::Clinic::SocialContract", foreign_key: "clinic_id"
   has_many :clinic_cnaes, class_name: "Operation::Product::Clinic::Cnae", foreign_key: "clinic_id"
-  has_many :clinic_regime_parameter, class_name: "Operation::Product::Clinic::RegimeParameter", foreign_key: "clinic_id"
-  has_many :clinic_social_contract, class_name: "Operation::Product::Clinic::SocialContract", foreign_key: "clinic_id"
   has_many :clinic_receipt, class_name: "Operation::Product::Clinic::Receipt", foreign_key: "clinic_id"
 
   # Validations

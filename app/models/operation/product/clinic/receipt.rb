@@ -3,6 +3,7 @@ class Operation::Product::Clinic::Receipt < ApplicationRecord
     self.table_name = "operation_clinic_receipts"
     
     # Relations
+    has_one :nfe_invoice, class_name: "Nfe::Invoice", foreign_key: "receipt_id" #, dependent: :destroy
     belongs_to :clinic, class_name: "Operation::Product::Entity", foreign_key: "clinic_id"
     belongs_to :date, class_name: "Operation::Product::Date", foreign_key: "date_id"
   

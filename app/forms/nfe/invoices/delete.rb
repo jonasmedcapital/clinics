@@ -4,20 +4,20 @@ class Nfe::Invoices::Delete
   attr_accessor :status, :type, :message
 
   def initialize(params)
-    @entity_params = params.require(:entity).permit(:id, :active)
+    @invoice_params = params.require(:invoice).permit(:id, :active)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
     
-    # @can_current_user_delete_entity = can_current_user_delete_entity?
-    # return false unless @can_current_user_delete_entity
+    # @can_current_user_delete_invoice = can_current_user_delete_invoice?
+    # return false unless @can_current_user_delete_invoice
 
-    @entity = entity
-    @entity.attributes = @entity_params
+    @invoice = invoice
+    @invoice.attributes = @invoice_params
 
-    @valid = @entity.valid?
+    @valid = @invoice.valid?
   end
 
-  def entity
-    @entity ||= ::Nfe::InvoiceRepository.find_by_id(@entity_params[:id])
+  def invoice
+    @invoice ||= ::Nfe::InvoiceRepository.find_by_id(@invoice_params[:id])
   end
 
   def current_user
@@ -25,13 +25,13 @@ class Nfe::Invoices::Delete
   end
 
   def data
-    # return cln = [] unless @can_current_user_delete_entity
-    cln = ::Nfe::InvoiceRepository.read @entity
+    # return cln = [] unless @can_current_user_delete_invoice
+    cln = ::Nfe::InvoiceRepository.read @invoice
     return {:cln => cln.compact}.as_json
   end
 
   def status
-    # return :forbidden unless @can_current_user_delete_entity
+    # return :forbidden unless @can_current_user_delete_invoice
     if @valid
       return :ok
     else
@@ -40,7 +40,7 @@ class Nfe::Invoices::Delete
   end
 
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_delete_entity
+    # return message = "A ação não é permitida" unless @can_current_user_delete_invoice
     if @valid
       message = "NF cancelada com sucesso!"
       return message
@@ -50,7 +50,7 @@ class Nfe::Invoices::Delete
   end
 
   def type
-    # return "danger" unless @can_current_user_delete_entity
+    # return "danger" unless @can_current_user_delete_invoice
     if @valid
       return "success"
     else
@@ -59,10 +59,10 @@ class Nfe::Invoices::Delete
   end
 
   def save
-    # return false unless @can_current_user_delete_entity
+    # return false unless @can_current_user_delete_invoice
     ActiveRecord::Base.transaction do
       if @valid
-        @entity.save
+        @invoice.save
         true
       else
         false
@@ -73,8 +73,8 @@ class Nfe::Invoices::Delete
 
   private
 
-  def can_current_user_delete_entity?
-    @can_current_user_delete_entity ||= ::UserPolicies.new(@current_user_params[:current_user_id], "delete", "medclinic_invoices").can_current_user?
+  def can_current_user_delete_invoice?
+    @can_current_user_delete_invoice ||= ::UserPolicies.new(@current_user_params[:current_user_id], "delete", "medclinic_invoices").can_current_user?
   end
   
 end

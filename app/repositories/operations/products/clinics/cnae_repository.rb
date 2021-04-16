@@ -4,6 +4,8 @@ class Operations::Products::Clinics::CnaeRepository < Base
     obj = entity.new    
     obj.clinic_id = attrs["clinic_id"]
     obj.cnae_code = attrs["cnae_code"] 
+    obj.kind = attrs["kind"] 
+    obj.cnae_code_pretty = attrs["cnae_code_pretty"] 
     obj.cnae_description = attrs["cnae_description"] 
 
     return obj
@@ -17,6 +19,10 @@ class Operations::Products::Clinics::CnaeRepository < Base
     entity.where(active: true, clinic_id: clinic_id)
   end
   
+  def self.list_all(cnaes)
+    mapper.map_all(cnaes)
+  end
+
   def self.list_all_ctiss(cnaes)
     mapper.map_all_ctiss(cnaes)
   end

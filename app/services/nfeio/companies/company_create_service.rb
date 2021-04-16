@@ -5,9 +5,19 @@ class Nfeio::Companies::CompanyCreateService
   require 'json'
   
   # comes from product clinic create
-  def initialize
-    # @clinic = clinic
-    # @company = clinic.company
+  def initialize(nfe_company)
+    @nfe_company = nfe_company
+    @company = nfe_company.company
+    @clinic = nfe_company.clinic
+    @social_contract = @clinic.clinic_social_contract
+    @regime_parameter = @clinic.clinic_regime_parameter
+    @tax_regime = Operations::Products::Clinics::RegimeParameterRepository::TAX_REGIME[@regime_parameter.tax_regime]
+    @special_tax_regime = Operations::Products::Clinics::RegimeParameterRepository::SPECIAL_TAX_REGIME[@regime_parameter.special_tax_regime]
+    @legal_nature = Operations::Products::Clinics::RegimeParameterRepository::LEGAL_NATURE[@regime_parameter.legal_nature]
+    @cnae_main = @clinic.clinic_cnaes.where(kind: "main").first
+    @address = @company.addresses.where(is_main: true, kind: "commercial").first
+    @email = @company.emails.where(is_main: true, kind: "commercial").first
+    @phone = @company.phones.where(is_main: true, kind: "commercial").first
 
     response = create
   end
@@ -21,38 +31,32 @@ class Nfeio::Companies::CompanyCreateService
     
     # initialize request json 
     company_params = {
-      name: "EMPRESA DE TESTE CERTIFICADO", # @company.name
-      tradeName: "EMPRESA DE TESTE CERTIFICADO", # @company.trade_name
-      federalTaxNumber: "74263783000132", # @company.federal_tax_number
+      name: @company.name,
+      tradeName: @company.name,
+      federalTaxNumber: @company.cnpj,
       address: {
-        postalCode: "31270-190",
-        street: "Rua Vital Brasil",
-        number: "429",
-        additionalInformation: "201",
-        district: "Liberdade",
+        postalCode: @address.postal_code,
+        street: @address.street,
+        number: @address.number,
+        additionalInformation: @address.complement,
+        district: @address.district,
         city: {
-            code: "3106200",
-            name: "Belo Horizonte"
+            code: @address.ibge,
+            name: @address.city
         },
-        state: "MG"
+        state: @address.state
       },
-      taxRegime: "MicroempreendedorIndividual",
-      specialTaxRegime: "Nenhum",
-      legalNature: "Empresario",
+      taxRegime: @tax_regime,
+      specialTaxRegime: @special_tax_regime,
+      legalNature: @legal_nature,
       economicActivities: [
-        
+        {
+          type: @cnae_main.kind,
+          code: @cnae_main.cnae_code.to_i
+        }        
       ],
-      municipalTaxNumber: "12409170015",
-      rpsSerialNumber: "IO",
-      rpsNumber: 1,
-      issRate: 0.0,
-      environment: "Development",
-      fiscalStatus: "Pending",
-      certificate: {
-        status: "Pending"
-      },
-      createdOn: "2020-11-27T11:54:51.1384445+00:00",
-      modifiedOn: "2020-11-27T11:54:51.5049311+00:00"
+      municipalTaxNumber: @social_contract.municipal_tax_number,
+      issRate: @regime_parameter.iss_rate
     }
 
     # request
@@ -73,13 +77,10 @@ class Nfeio::Companies::CompanyCreateService
       company_hash = JSON.parse(response.body)
 
       # create nfe_company
-      nfe_company = Operation::Product::Clinic::Nfe::Company::Entity.new
-      nfe_company.clinic_id = 1
-      nfe_company.company_id = 1
-      nfe_company.nfe_company_id = company_hash["companies"]["id"]
-      nfe_company.save!
+      @nfe_company.nfe_company_id = company_hash["companies"]["id"]
+      @nfe_company.save!
     else
-      puts "ERROR AO CRIAR EMPRESA"
+      puts "===============================ERROR AO CRIAR EMPRESA====================================="
     end
 
   end

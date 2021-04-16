@@ -6,6 +6,7 @@ class CreateCnaesTable < ActiveRecord::Migration[5.2]
       t.bigint :clinic_id
       t.integer :kind
       t.string :cnae_code
+      t.string :cnae_code_pretty
       t.string :cnae_description
     end
 

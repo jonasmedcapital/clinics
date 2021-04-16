@@ -1,18 +1,18 @@
 class API::V1::Nfe::CompaniesController < ApplicationController
 
   def create
-    entity = ::Nfe::Companies::Create.new(params)
-    render :json => {:save => entity.save, :data => entity.data, :status => entity.status, :type => entity.type, :message => entity.message}.as_json
+    company = ::Nfe::Companies::Create.new(params)
+    render :json => {:save => company.save, :data => company.data, :status => company.status, :type => company.type, :message => company.message}.as_json
   end
 
   def delete
-    entity = ::Nfe::Companies::Delete.new(params)
-    render :json => {:status => entity.status, :process => entity.process?, :type => entity.type, :message => entity.message, :data => entity.data}.as_json
+    company = ::Nfe::Companies::Delete.new(params)
+    render :json => {:status => company.status, :process => company.process?, :type => company.type, :message => company.message, :data => company.data}.as_json
   end
   
   def read
-    entity = ::Nfe::Companies::Read.new(params)
-    render :json => {:status => entity.status, :process => entity.process?, :type => entity.type, :message => entity.message, :data => entity.data}.as_json
+    company = ::Nfe::Companies::Read.new(params)
+    render :json => {:status => company.status, :process => company.process?, :type => company.type, :message => company.message, :data => company.data}.as_json
   end
 
   def list

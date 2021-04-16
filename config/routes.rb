@@ -2,10 +2,18 @@ Rails.application.routes.draw do
   devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
+  get "/test", to: "tests#test"
+
   namespace :api, path: '/' do
     namespace :v1, path: '/' do
 
       namespace :nfe do
+
+        post "certificates/list", to: "certificates#list"
+        post "certificates/read", to: "certificates#read"
+        post "certificates/create", to: "certificates#create"
+        put "certificates/update", to: "certificates#update"
+        put "certificates/save_upload", to: "certificates#save_upload"
 
         post "companies/list", to: "companies#list"
         post "companies/read", to: "companies#read"
@@ -38,6 +46,7 @@ Rails.application.routes.draw do
           namespace :clinics do
 
             post "cnaes/list_ctiss", to: "cnaes#list_ctiss"
+            post "cnaes/list", to: "cnaes#list"
             post "cnaes/read", to: "cnaes#read"
             post "cnaes/create", to: "cnaes#create"
             put "cnaes/update", to: "cnaes#update"

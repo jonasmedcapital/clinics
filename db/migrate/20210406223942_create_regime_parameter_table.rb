@@ -10,6 +10,7 @@ class CreateRegimeParameterTable < ActiveRecord::Migration[5.2]
       t.integer :special_tax_regime
       t.integer :legal_nature
       t.integer :year
+      t.decimal :iss_rate
     end
 
     add_foreign_key :operation_clinic_regime_parameters, :product_entities, column: :clinic_id

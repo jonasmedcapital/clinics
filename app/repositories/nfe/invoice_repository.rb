@@ -41,4 +41,20 @@ class Nfe::InvoiceRepository < Base
     "Nfe::InvoiceMapper".constantize
   end
 
+  STATUS = {
+    "error" => "Error",
+    "none" => "None",
+    "created" => "Created",
+    "issued" => "Issued",
+    "cancelled" => "Cancelled"
+  }
+
+  STATUS_PRETTY = {
+    "error" => "Erro",
+    "none" => "Sem status",
+    "created" => "criada",
+    "issued" => "Emitida",
+    "cancelled" => "Cancelada"
+  }
+
 end

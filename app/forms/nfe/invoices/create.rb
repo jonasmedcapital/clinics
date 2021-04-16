@@ -3,32 +3,32 @@ class Nfe::Invoices::Create
   attr_accessor :status, :type, :message
 
   def initialize(params)
-    @entity_params = params.require(:entity).permit(:clinic_id, :company_id, :receipt_id, :nfe_invoice_id, :status)
+    @invoice_params = params.require(:invoice).permit(:clinic_id, :company_id, :receipt_id, :nfe_invoice_id, :status)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
     
-    # @can_current_user_create_entity = can_current_user_create_entity?
-    # return false unless @can_current_user_create_entity
+    # @can_current_user_create_invoice = can_current_user_create_invoice?
+    # return false unless @can_current_user_create_invoice
 
-    @entity = entity
-    @valid = @entity.valid?
+    @invoice = invoice
+    @valid = @invoice.valid?
   end
 
-  def entity
-    ::Nfe::InvoiceRepository.build(@entity_params)
+  def invoice
+    ::Nfe::InvoiceRepository.build(@invoice_params)
   end
   
   def save
-    # return false unless @can_current_user_create_entity
+    # return false unless @can_current_user_create_invoice
     ActiveRecord::Base.transaction do
       if @valid
-        @entity.save
+        @invoice.save
         @data = true
         @status = true
         @process = true
         @type = true
         @message = true
         # chamar servico create nf
-        Nfeio::Invoices::InvoiceCreateService.new(@entity)
+        Nfeio::Invoices::InvoiceCreateService.new(@invoice)
         true
       else
         @data = false
@@ -42,9 +42,9 @@ class Nfe::Invoices::Create
   end
   
   def data
-    # return cln = [] unless @can_current_user_create_entity
+    # return cln = [] unless @can_current_user_create_invoice
     if @data
-      cln = ::Nfe::InvoiceRepository.read(@entity)
+      cln = ::Nfe::InvoiceRepository.read(@invoice)
     else
       cln = []
     end
@@ -53,7 +53,7 @@ class Nfe::Invoices::Create
   end
 
   def status
-    # return :forbidden unless @can_current_user_create_entity
+    # return :forbidden unless @can_current_user_create_invoice
     if @status
       return :created
     else
@@ -62,7 +62,7 @@ class Nfe::Invoices::Create
   end
   
   def type
-    # return "danger" unless @can_current_user_create_entity
+    # return "danger" unless @can_current_user_create_invoice
     if @type
       return "success"
     else
@@ -71,7 +71,7 @@ class Nfe::Invoices::Create
   end
   
   def message
-    # return message = "A ação não é permitida" unless @can_current_user_create_entity
+    # return message = "A ação não é permitida" unless @can_current_user_create_invoice
     if @message
       message = "NF criada com sucesso!"
       return message
@@ -83,7 +83,7 @@ class Nfe::Invoices::Create
   
   private
 
-  def can_current_user_create_entity?
+  def can_current_user_create_invoice?
     ::UserPolicies.new(@current_user_params[:current_user_id], "create", "medclinic_invoices").can_current_user?
   end
   

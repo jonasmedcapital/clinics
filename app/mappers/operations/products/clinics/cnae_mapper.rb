@@ -10,9 +10,9 @@ class Operations::Products::Clinics::CnaeMapper < BaseMapper
     ctiss = Array.new
     cnaes.each do |cnae|
       ::Operations::Products::Cnaes::LIST.each do |ctiss_item|
-        if ctiss_item[:cnae_code] == cnae.cnae_code
-          if !ctiss.include?({"cnae_code" => cnae.cnae_code, "ctiss_code" => ctiss_item[:ctiss_code], "ctiss_desctiption" => ctiss_item[:ctiss_full]})
-            ctiss << {"cnae_code" => cnae.cnae_code, "ctiss_code" => ctiss_item[:ctiss_code], "ctiss_desctiption" => ctiss_item[:ctiss_full]}
+        if ctiss_item[:cnae_code] == cnae.cnae_code_pretty
+          if !ctiss.include?({"cnae_code" => cnae.cnae_code_pretty, "ctiss_code" => ctiss_item[:ctiss_code], "ctiss_desctiption" => ctiss_item[:ctiss_full]})
+            ctiss << {"cnae_code" => cnae.cnae_code, "cnae_code_pretty" => cnae.cnae_code_pretty, "ctiss_code" => ctiss_item[:ctiss_code], "ctiss_desctiption" => ctiss_item[:ctiss_full]}
           end
         end
       end

@@ -9,5 +9,5 @@ class Operation::Product::Clinic::Cnae < ApplicationRecord
 
   #Callbacks 
 
-  enum kind: { primary: 0, secondary: 1 }, _prefix: :_
+  enum kind: { main: 0, secondary: 1 }, _prefix: :_
 end

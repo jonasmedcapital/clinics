@@ -3,7 +3,7 @@ class Nfe::Companies::Create
   attr_accessor :status, :type, :message
 
   def initialize(params)
-    @company_params = params.require(:company).permit(:clinic_id, :company_id, :nfe_company_id)
+    @company_params = params.require(:company).permit(:clinic_id, :company_id)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
     
     # @can_current_user_create_company = can_current_user_create_company?
@@ -21,6 +21,7 @@ class Nfe::Companies::Create
     # return false unless @can_current_user_create_company
     ActiveRecord::Base.transaction do
       if @valid
+        Nfeio::Companies::CompanyCreateService.new(@company)
         @company.save
         @data = true
         @status = true

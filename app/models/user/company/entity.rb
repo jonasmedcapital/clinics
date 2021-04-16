@@ -11,9 +11,11 @@ class User::Company::Entity < ApplicationRecord
   
   # Relations
   
+  has_one :nfe_company, class_name: "Nfe::Company", foreign_key: "company_id" #, dependent: :destroy
   has_many :emails, class_name: "Contact::Email", foreign_key: "company_id" #, dependent: :destroy
   has_many :phones, class_name: "Contact::Phone", foreign_key: "company_id" #, dependent: :destroy
   has_many :addresses, class_name: "Contact::Address", foreign_key: "company_id" #, dependent: :destroy
+  has_many :products, class_name: "Operation::Product::Entity", foreign_key: "company_id"
   
 
 

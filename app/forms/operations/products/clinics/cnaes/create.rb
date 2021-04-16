@@ -1,7 +1,7 @@
 class Operations::Products::Clinics::Cnaes::Create
 
   def initialize(params)
-    @cnae_params = params.require(:cnae).permit(:clinic_id, :cnae_code, :cnae__description)
+    @cnae_params = params.require(:cnae).permit(:clinic_id, :cnae_code, :cnae_code_pretty, :kind, :cnae_description)
 
     @cnae = cnae
   end
