@@ -44,7 +44,7 @@ Rails.application.routes.draw do
           put "entities/update", to: "entities#update"
 
           namespace :clinics do
-
+            
             post "cnaes/list_ctiss", to: "cnaes#list_ctiss"
             post "cnaes/list", to: "cnaes#list"
             post "cnaes/read", to: "cnaes#read"
@@ -60,6 +60,11 @@ Rails.application.routes.draw do
             post "invoices/read", to: "invoices#read"
             post "invoices/create", to: "invoices#create"
             put "invoices/update", to: "invoices#update"
+
+            post "monthly_calculations/list", to: "monthly_calculations#list"
+            post "monthly_calculations/read", to: "monthly_calculations#read"
+            post "monthly_calculations/create", to: "monthly_calculations#create"
+            put "monthly_calculations/update", to: "monthly_calculations#update"
 
             post "partners/list", to: "partners#list"
             post "partners/read", to: "partners#read"
@@ -85,6 +90,11 @@ Rails.application.routes.draw do
             post "takers/read", to: "takers#read"
             post "takers/create", to: "takers#create"
             put "takers/update", to: "takers#update"
+
+            post "yearly_calculations/list", to: "yearly_calculations#list"
+            post "yearly_calculations/read", to: "yearly_calculations#read"
+            post "yearly_calculations/create", to: "yearly_calculations#create"
+            put "yearly_calculations/update", to: "yearly_calculations#update"
 
           end
         end

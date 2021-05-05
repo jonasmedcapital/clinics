@@ -4,7 +4,7 @@ class Operations::Products::Clinics::RegimeParameters::Create
   attr_accessor :status, :type, :message
 
   def initialize(params)
-    @regime_parameter_params = params.require(:regime_parameter).permit(:clinic_id, :monthly, :per_partner, :tax_regime, :special_tax_regime, :legal_nature, :year, :iss_rate)
+    @regime_parameter_params = params.require(:regime_parameter).permit(:clinic_id, :monthly, :per_partner, :tax_regime, :special_tax_regime, :legal_nature, :year, :started_at, :iss_rate)
     @current_user_params = params.require(:current_user).permit(:current_user_id)
 
     # @can_current_user_create_regime_parameter = can_current_user_create_regime_parameter?

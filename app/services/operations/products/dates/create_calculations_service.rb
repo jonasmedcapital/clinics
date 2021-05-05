@@ -13,7 +13,7 @@ class Operations::Products::Dates::CreateCalculationsService
     elsif @product.name == "medfiling"
       create_tax_filing_calculation
     elsif @product.name == "medclinic"
-      create_medclinic_calculation
+      create_clinic_calculation
     end
     
   end
@@ -39,11 +39,9 @@ class Operations::Products::Dates::CreateCalculationsService
     ::Operations::Products::TaxFilings::Journeys::ActiveJourneyService.new(@product.id, @date.id)
   end
 
-  def create_medclinic_calculation
-    # ::Operations::Products::TaxFilings::Calculations::CreateCalculationService.new(@product.id, @date.id)
-    # ::Operations::Products::TaxFilings::Agents::CreateAgentService.new(@product.id, @date.id, @date.year)
-    # ::Operations::Products::TaxFilings::Summaries::CreateSummaryService.new(@product.id, @date.id)
-    # ::Operations::Products::TaxFilings::Journeys::ActiveJourneyService.new(@product.id, @date.id)
+  def create_clinic_calculation
+    ::Operations::Products::Clinics::Calculations::CreateMonthlyCalculationService.new(@product, @date)
+    ::Operations::Products::Clinics::Calculations::CreateYearlyCalculationService.new(@product, @date)
   end
   
   

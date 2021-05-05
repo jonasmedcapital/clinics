@@ -10,6 +10,7 @@ class CreateRegimeParameterTable < ActiveRecord::Migration[5.2]
       t.integer :special_tax_regime
       t.integer :legal_nature
       t.integer :year
+      t.date :started_at
       t.decimal :iss_rate
     end
 

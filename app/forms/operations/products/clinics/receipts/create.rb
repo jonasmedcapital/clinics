@@ -22,6 +22,7 @@ class Operations::Products::Clinics::Receipts::Create
     ActiveRecord::Base.transaction do
       if @valid
         @receipt.save
+        Operations::Products::Clinics::Calculations::UpdateMonthlyCalculationService.new(@receipt)
         @data = true
         @status = true
         @process = true

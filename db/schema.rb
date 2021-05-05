@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_180803) do
+ActiveRecord::Schema.define(version: 2021_04_27_153951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,72 @@ ActiveRecord::Schema.define(version: 2021_04_15_180803) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "clinic_monthly_calculations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "clinic_id"
+    t.bigint "date_id"
+    t.integer "month"
+    t.integer "year"
+    t.decimal "gross_total"
+    t.decimal "net_receivable"
+    t.decimal "ir_total_amount"
+    t.decimal "pis_total_amount"
+    t.decimal "cofins_total_amount"
+    t.decimal "csll_total_amount"
+    t.decimal "inss_total_amount"
+    t.decimal "iss_total_amount"
+    t.decimal "ir_amount_withheld"
+    t.decimal "pis_amount_withheld"
+    t.decimal "cofins_amount_withheld"
+    t.decimal "csll_amount_withheld"
+    t.decimal "inss_amount_withheld"
+    t.decimal "iss_amount_withheld"
+    t.decimal "ir_amount_due"
+    t.decimal "csll_amount_due"
+    t.decimal "pis_amount_due"
+    t.decimal "cofins_amount_due"
+    t.decimal "iss_amount_due"
+    t.decimal "inss_amount_due"
+    t.index ["clinic_id"], name: "index_clinic_monthly_calculations_on_clinic_id"
+    t.index ["date_id"], name: "index_clinic_monthly_calculations_on_date_id"
+    t.index ["month"], name: "index_clinic_monthly_calculations_on_month"
+    t.index ["year"], name: "index_clinic_monthly_calculations_on_year"
+  end
+
+  create_table "clinic_yealrly_calculations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "active", default: true, null: false
+    t.bigint "clinic_id"
+    t.bigint "date_id"
+    t.integer "year"
+    t.decimal "gross_total"
+    t.decimal "net_receivable"
+    t.decimal "ir_total_amount"
+    t.decimal "pis_total_amount"
+    t.decimal "cofins_total_amount"
+    t.decimal "csll_total_amount"
+    t.decimal "inss_total_amount"
+    t.decimal "iss_total_amount"
+    t.decimal "ir_amount_withheld"
+    t.decimal "pis_amount_withheld"
+    t.decimal "cofins_amount_withheld"
+    t.decimal "csll_amount_withheld"
+    t.decimal "inss_amount_withheld"
+    t.decimal "iss_amount_withheld"
+    t.decimal "ir_amount_due"
+    t.decimal "csll_amount_due"
+    t.decimal "pis_amount_due"
+    t.decimal "cofins_amount_due"
+    t.decimal "iss_amount_due"
+    t.decimal "inss_amount_due"
+    t.index ["clinic_id"], name: "index_clinic_yealrly_calculations_on_clinic_id"
+    t.index ["date_id"], name: "index_clinic_yealrly_calculations_on_date_id"
+    t.index ["year"], name: "index_clinic_yealrly_calculations_on_year"
   end
 
   create_table "company_entities", force: :cascade do |t|
@@ -391,6 +457,7 @@ ActiveRecord::Schema.define(version: 2021_04_15_180803) do
     t.integer "special_tax_regime"
     t.integer "legal_nature"
     t.integer "year"
+    t.date "started_at"
     t.decimal "iss_rate"
     t.index ["clinic_id"], name: "index_operation_clinic_regime_parameters_on_clinic_id"
     t.index ["legal_nature"], name: "index_operation_clinic_regime_parameters_on_legal_nature"
@@ -535,6 +602,10 @@ ActiveRecord::Schema.define(version: 2021_04_15_180803) do
 
   add_foreign_key "account_entities", "users"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "clinic_monthly_calculations", "product_dates", column: "date_id"
+  add_foreign_key "clinic_monthly_calculations", "product_entities", column: "clinic_id"
+  add_foreign_key "clinic_yealrly_calculations", "product_dates", column: "date_id"
+  add_foreign_key "clinic_yealrly_calculations", "product_entities", column: "clinic_id"
   add_foreign_key "contact_addresses", "account_entities", column: "account_id"
   add_foreign_key "contact_emails", "account_entities", column: "account_id"
   add_foreign_key "contact_phones", "account_entities", column: "account_id"

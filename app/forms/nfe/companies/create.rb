@@ -20,8 +20,13 @@ class Nfe::Companies::Create
   def save
     # return false unless @can_current_user_create_company
     ActiveRecord::Base.transaction do
+      nfe_company_id = Nfeio::Companies::CompanyCreateService.new(@company)
+      
+      if nfe_company_id
+        @company.nfe_company_id = nfe_company_id
+      end
+
       if @valid
-        Nfeio::Companies::CompanyCreateService.new(@company)
         @company.save
         @data = true
         @status = true

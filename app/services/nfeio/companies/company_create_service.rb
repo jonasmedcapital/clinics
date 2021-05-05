@@ -75,51 +75,11 @@ class Nfeio::Companies::CompanyCreateService
     # manipulate response 
     if ["200", "201", "202"].include? response.code
       company_hash = JSON.parse(response.body)
-
-      # create nfe_company
-      @nfe_company.nfe_company_id = company_hash["companies"]["id"]
-      @nfe_company.save!
+      return company_hash["companies"]["id"]
     else
-      puts "===============================ERROR AO CRIAR EMPRESA====================================="
+      return false
     end
 
   end
 
 end
-
-    #### company hash looks like #### 
-    #   {
-    #     "id""=>""6026ca41003cad1fdc9eda43",
-    #     "name""=>""TESTANDO",
-    #     "tradeName""=>""FT TECHNOLOGY",
-    #     "federalTaxNumber"=>5906139000112,
-    #     "address""=>"{
-    #        "postalCode""=>""31270-190",
-    #        "street""=>""Rua Vital Brasil",
-    #        "number""=>""429",
-    #        "additionalInformation""=>""201",
-    #        "district""=>""Liberdade",
-    #        "city""=>"{
-    #           "code""=>""3106200",
-    #           "name""=>""Belo Horizonte"
-    #        },
-    #        "state""=>""MG"
-    #     },
-    #     "taxRegime""=>""MicroempreendedorIndividual",
-    #     "specialTaxRegime""=>""Nenhum",
-    #     "legalNature""=>""Empresario",
-    #     "economicActivities""=>"[
-          
-    #     ],
-    #     "municipalTaxNumber""=>""12409170015",
-    #     "rpsSerialNumber""=>""IO",
-    #     "rpsNumber"=>1,
-    #     "issRate"=>0.0,
-    #     "environment""=>""Development",
-    #     "fiscalStatus""=>""Pending",
-    #     "certificate""=>"{
-    #        "status""=>""Pending"
-    #     },
-    #     "createdOn""=>""2021-02-12T18:34:41.2226536+00:00",
-    #     "modifiedOn""=>""2021-02-12T18:34:41.2226536+00:00"
-    #  }

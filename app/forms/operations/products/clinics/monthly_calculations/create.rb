@@ -1,0 +1,97 @@
+class Operations::Products::Clinics::MonthlyCalculations::Create
+
+  def initialize(params)
+    @calculation_params = params.require(:calculation).permit(:clinic_id, :kind, :date_id, :month, :year, :gross_total)
+    @current_user_params = params.require(:current_user).permit(:current_user_id)
+
+    # @can_current_user_create_calculation = can_current_user_create_calculation?
+    # return false unless @can_current_user_create_calculation
+
+    @calculation = calculation
+    @valid = @calculation.valid?
+  end
+
+  def calculation
+    ::Operations::Products::Clinics::MonthlyCalculationRepository.build(@calculation_params)
+  end
+
+  def current_user
+    ::Users::UserRepository.new.find_by_id(@current_user_params[:current_user_id])
+  end
+  
+  def save
+    # return false unless @can_current_user_create_calculation
+    ActiveRecord::Base.transaction do
+      @calculation = Operations::Products::Clinics::Calculations::FillMonthlyCalculationService.new(@calculation)
+      @calculation = @calculation.instance_variable_get(:@calculation)
+      if @valid
+        @calculation.save
+        @data = true
+        @status = true
+        @process = true
+        @type = true
+        @message = true
+        true
+      else
+        @data = true
+        @status = false
+        @process = false
+        @type = false
+        @message = false
+        false
+      end
+    end
+  end
+  
+  def data
+    # return cln = [] unless @can_current_user_create_calculation
+    if @data
+      cln = ::Operations::Products::Clinics::MonthlyCalculationRepository.read(@calculation)
+    else
+      cln = []
+    end
+    
+    return {:cln => cln.compact}.as_json
+  end
+
+  def status
+    # return :forbidden unless @can_current_user_create_calculation
+    if @status
+      return :created
+    else
+      return :bad_request
+    end
+  end
+  
+  def type
+    # return "danger" unless @can_current_user_create_calculation
+    if @type
+      return "success"
+    else
+      return "danger"
+    end
+  end
+  
+  def message
+    # return message = "A ação não é permitida" unless @can_current_user_create_calculation
+    if @valid
+      message = "Tomador criada com sucesso!"
+      return message
+    else
+      message = "Tivemos seguinte(s) problema(s):"
+      i = 0
+      @calculation.errors.messages.each do |key, value|
+        i += 1
+        message += " (#{i}) #{value.first}"
+      end
+      return message
+    end
+  end
+
+  private
+
+  def can_current_user_create_calculation?
+    @can_current_user_create_calculation ||= ::UserPolicies.new(@current_user_params[:current_user_id], "create", "medclinic_monthly_calculations").can_current_user?
+  end
+  
+end

@@ -9,6 +9,7 @@ class Operations::Products::Clinics::RegimeParameterRepository < Base
     obj.special_tax_regime = attrs["special_tax_regime"]
     obj.legal_nature = attrs["legal_nature"]
     obj.year = attrs["year"]
+    obj.started_at = attrs["started_at"].to_date
     obj.iss_rate = attrs["iss_rate"]
     return obj
   end

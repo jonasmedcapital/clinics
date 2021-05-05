@@ -4,6 +4,8 @@ class Operation::Product::Date < ApplicationRecord
 
   # Relations
   belongs_to :product, class_name: "Operation::Product::Entity", foreign_key: "product_id"
+  has_one :monthly_calculation, class_name: "Operation::Product::Clinic::MonthlyCalculation", foreign_key: "date_id"
+  has_one :yearly_calculation, class_name: "Operation::Product::Clinic::YearlyCalculation", foreign_key: "date_id"
   has_many :receipts, class_name: "Operation::Product::Clinic::Receipt", foreign_key: "date_id"
 
   # Clinic Relations
