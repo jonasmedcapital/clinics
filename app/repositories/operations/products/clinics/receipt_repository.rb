@@ -91,6 +91,10 @@ class Operations::Products::Clinics::ReceiptRepository < Base
     entity.where(active: true)
   end
 
+  def self.find_approved_receipts(clinic_id, date_id)
+    entity.where(clinic_id: clinic_id, date_id: date_id, status: 0..1)
+  end
+
   def self.all_active_clinic(clinic_id)
     entity.where(active: true, clinic_id: clinic_id)
   end

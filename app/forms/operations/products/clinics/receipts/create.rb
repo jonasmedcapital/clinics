@@ -28,8 +28,6 @@ class Operations::Products::Clinics::Receipts::Create
         @process = true
         @type = true
         @message = true
-        # servico para calculation
-        # Operations::Products::Clinics::Receipts::UpdateCalculationsService.new(@receipt)
         true
       else
         @data = false
